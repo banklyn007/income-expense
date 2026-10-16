@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>บัญชีรายรับรายจ่าย</title>
+<meta name="theme-color" content="#0f766e">
+<meta name="description" content="แอปบันทึกรายรับรายจ่ายส่วนตัว">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="บัญชี">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="month-nav">
+      <button id="prev" class="icon-btn" aria-label="เดือนก่อนหน้า">‹</button>
+      <h1 id="monthLabel">—</h1>
+      <button id="next" class="icon-btn" aria-label="เดือนถัดไป">›</button>
+    </div>
+    <button id="btnSettings" class="icon-btn" aria-label="ตั้งค่า">⚙</button>
+  </header>
+
+  <div id="status" class="status" hidden></div>
+
+  <main>
+    <section class="card summary">
+      <div class="label">คงเหลือเดือนนี้</div>
+      <div class="balance" id="balance">฿0</div>
+      <div class="split">
+        <div><span class="dot inc"></span><span class="label">รายรับ</span><strong id="sumInc" class="inc-text">฿0</strong></div>
+        <div><span class="dot exp"></span><span class="label">รายจ่าย</span><strong id="sumExp" class="exp-text">฿0</strong></div>
+      </div>
+    </section>
+
+    <section class="card" id="breakdownCard" hidden>
+      <h2>รายจ่ายตามหมวด</h2>
+      <div id="breakdown"></div>
+    </section>
+
+    <section id="list" aria-live="polite"></section>
+  </main>
+
+  <button id="fab" aria-label="เพิ่มรายการ">+</button>
+</div>
+
+<div id="backdrop" class="backdrop" hidden></div>
+
+<form id="entry" class="sheet" hidden autocomplete="off">
+  <div class="grab"></div>
+  <div class="seg" id="typeSeg">
+    <button type="button" data-type="expense" class="on">รายจ่าย</button>
+    <button type="button" data-type="income">รายรับ</button>
+  </div>
+  <label class="amount">
+    <span>฿</span>
+    <input id="amount" inputmode="decimal" placeholder="0" aria-label="จำนวนเงิน" required>
+  </label>
+  <div id="cats" class="chips" role="radiogroup" aria-label="หมวดหมู่"></div>
+  <div class="row">
+    <input id="date" type="date" required aria-label="วันที่">
+    <input id="note" type="text" placeholder="หมายเหตุ (ไม่บังคับ)" maxlength="200" aria-label="หมายเหตุ">
+  </div>
+  <div class="actions">
+    <button type="button" id="btnDelete" class="danger" hidden>ลบ</button>
+    <button type="submit" class="primary">บันทึก</button>
+  </div>
+</form>
+
+<form id="settings" class="sheet" hidden autocomplete="off">
+  <div class="grab"></div>
+  <h2>ตั้งค่าการเชื่อมต่อ</h2>
+  <label class="field">
+    <span>Web App URL (Apps Script)</span>
+    <input id="cfgUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec" required>
+  </label>
+  <label class="field">
+    <span>Token</span>
+    <input id="cfgToken" type="password" placeholder="รหัสที่ตั้งไว้ใน Script properties" required>
+  </label>
+  <div id="cfgMsg" class="hint"></div>
+  <div class="actions">
+    <button type="button" id="btnCloseSettings" class="ghost">ปิด</button>
+    <button type="submit" class="primary">ทดสอบและบันทึก</button>
+  </div>
+</form>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
